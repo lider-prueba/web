@@ -1,0 +1,34 @@
+<div class="row">
+    <p>Mostrando {{ count }} registros de un total de {{ totalRegister }} registros, página {{ page }}</p>
+</div>
+<div class="row">
+    <ng-container *ngFor="let product of products">
+        <div class="card col-3 m-1">
+            <img [src]="'//' + product.image" class="card-img-top" alt="..." />
+            <div class="card-body">
+                <h5 class="card-title">{{ product.description }}</h5>
+                <p class="card-text">{{ product.brand }}, {{ product.price | currency: 'CLP':'symbol' }}</p>
+                <!-- If the product doesn't exist on the cart show this button -->
+                <a *ngIf="!product.onCart" (click)="_cartService.addFirstProduct(product)" class="btn btn-primary">Agregar</a>
+                <!-- end add button -->
+                <!-- if the cart have this product, this will show -->
+                <div *ngIf="product.onCart" class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <button (click)="_cartService.managamentCart(product, false)" class="btn btn-outline-secondary" type="button">Quitar</button>
+                    </div>
+                    <input [disabled]="true" type="text" class="form-control" value="{{ product.quantity }}" />
+                    <div class="input-group-append">
+                        <button (click)="_cartService.managamentCart(product, true)" class="btn btn-outline-secondary" type="button">Agregar</button>
+                    </div>
+                </div>
+                <!-- end minus plus buttons -->
+            </div>
+        </div>
+    </ng-container>
+</div>
+
+<div class="btn-group pt-4" role="group" aria-label="Basic outlined example">
+    <button [disabled]="!hasPrevPage" class="btn btn-primary" (click)="paginate(false)"><</button>
+    <button class="btn btn-outline-primary">{{ page }}</button>
+    <button [disabled]="!hasNextPage" class="btn btn-primary" (click)="paginate(true)">></button>
+</div>

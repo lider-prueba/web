@@ -1,0 +1,31 @@
+<nav class="navbar navbar-light bg-light sticky-top">
+    <div class="container-fluid">
+        <a class="navbar-brand">Linder</a>
+        <button (click)="showPopover()" #cartPopover="popover" [popover]="sweatRef" [popoverOnHover]="false" class="btn btn-primary">
+            {{ _cartService.count }}
+        </button>
+    </div>
+</nav>
+<popover-content #sweatRef>
+    <button class="btn btn-deafult" (click)="hidePopover()">X</button>
+
+    <h4 *ngIf="myCart.length === 0">Carrito vacío</h4>
+    <div *ngIf="myCart.length !== 0">
+        <div>
+            {{ _cartService.msgDiscount }}
+            <hr />
+            {{ _cartService.msgBiggerDiscount }}
+        </div>
+        <div class="scroll-cart">
+            <ul>
+                <li *ngFor="let cart of myCart">
+                    <span class="badge bg-light text-dark"
+                        >{{ cart.quantity }}. {{ cart.brand }}, {{ cart.description }}, {{ cart.price | currency: 'CLP':'symbol' }}</span
+                    >
+                </li>
+            </ul>
+        </div>
+        <span class="badge bg-danger">Subtotal: {{ _cartService.total | currency: 'CLP':'symbol' }}</span>
+        <span class="badge bg-danger">Total: {{ _cartService.total - _cartService.discount | currency: 'CLP':'symbol' }}</span>
+    </div>
+</popover-content>
