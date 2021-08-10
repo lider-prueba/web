@@ -1,3 +1,7 @@
+## If angular is not installed
+
+RUN npm install -g @angular/cli@8.1.2
+
 ## Install dependecies
 
 RUN `npm i`
